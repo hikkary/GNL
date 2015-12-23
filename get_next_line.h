@@ -6,13 +6,13 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:30:47 by zkerkeb           #+#    #+#             */
-/*   Updated: 2015/12/22 23:15:53 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2015/12/23 20:01:36 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 10
+# define BUFF_SIZE 1
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
