@@ -15,7 +15,9 @@
 int check_buff(char *buf)
 {
 	int i;
-	
+	static char *rest;
+
+
 	i = 0;
 	while (buf[i])
 	{
@@ -26,39 +28,28 @@ int check_buff(char *buf)
 	return (0);
 }
 
-int len_line(int fd, char *buf, int bn)
+char *len_line(int fd, char *buf, int bn, char **line)
 {
 	int i;
 	int len;
 	int ret;
+	char *ace;
 	
+	line[1] = ft_strnew(BUFF_SIZE + 1);
 	len = 0;
 	i = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE) != 0 && check_buff(buf) != 1))
 	{
-		len += ret;	
-	//	printf("%s",buf);
+	//	len += ret;
+	//	ft_putchar('a');
+		printf("%d", ret);
+		line[1] = ft_strjoin(line[1], buf);	
 	}
-	return(len);
+		//ft_putstr(line[1]);
+	return(line[1]);
 }
 
-char *ft_write(int fd, char *buf, char **line, int bn, int i)
-{
-	int ret;
-	int j;
 
-	j = 0;
-	while ((ret = read(fd, buf, BUFF_SIZE) != 0 && check_buff(buf) != 1))
-	{
-		line[0][i] = buf[j];
-		ft_putstr(buf);
-		i++;
-		j++;
-	}
-	line[0][i] = '\0';;
-	read = 0;
-	return (line[0]);
-}
 // integrer bn pour permettre la recursivite
 int get_next_line(int const fd, char **line)
 {
@@ -66,18 +57,15 @@ int get_next_line(int const fd, char **line)
 	int ret;	
 	char buf[BUFF_SIZE + 1];
 	static int bn;
-	int len;
+	char *len;
 	
 	i =  0;	
 	bn = 0;
 	
-	len = len_line(fd, buf, bn); 
+	line[0] = len_line(fd, buf, bn, line); 	
 	
-	line[0] = (char *)malloc(sizeof(char) * len);
-	while ((ret = read(fd, buf, BUFF_SIZE) != 0 && check_buff(buf) != 1))
-		line[0] = ft_write(fd, buf, line, bn, i);
-
-	//ft_putstr(line[0]);
+	ft_putstr(line[0]);
+	ft_putchar('\n');
 	return (0);
 }
 
@@ -85,11 +73,15 @@ int main(int argc, char **argv)
 {
 	int fd;
  	char **line;
+	int fd2;
 
-	
 	line = (char **)malloc(sizeof(char *) * 10);
 	fd = open(argv[1], O_RDONLY);
+	fd2 = open(argv[2], O_RDONLY);
 	get_next_line(fd, line);
+	get_next_line(fd2, line);
+	get_next_line(fd, line);
+	get_next_line(fd2, line);
 
 	return (0);
 }
