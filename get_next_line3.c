@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/22 19:28:05 by zkerkeb           #+#    #+#             */
-/*   Updated: 2015/12/29 22:06:47 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2015/12/29 22:08:58 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -71,6 +71,7 @@ int get_next_line(int const fd, char **line)
 //	ft_putstr(r);
 	return (0);
 }
+//A FAIRE creer la fonction qui colle la static r a line , et qui si ya pas de buffer la renvoi a lautre fonction pour continuer a lire, Vive la republique, vive la France
 
 int main(int argc, char **argv)
 {
