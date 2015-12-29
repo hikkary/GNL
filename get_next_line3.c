@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/22 19:28:05 by zkerkeb           #+#    #+#             */
-/*   Updated: 2015/12/29 20:24:52 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2015/12/29 22:06:47 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -36,7 +36,7 @@ char *len_line(int fd, char *buf, char *r, char **line)
 
 //	line[0] = ft_strnew(BUFF_SIZE + 100);
 	i = 0;
-	while ((ret = read(fd, buf, BUFF_SIZE) != 0 && check_buff(buf) != 1))
+	while ((ret = read(fd, buf, BUFF_SIZE) != 0 && check_buff(line[0]) != 1))
 	{
 		line[0] = ft_strjoin(line[0], buf);
 	}
@@ -44,14 +44,15 @@ char *len_line(int fd, char *buf, char *r, char **line)
 		i++;
 	while (line[0][i] != '\0')
 	{
+		i++;
 		r[j] = line[0][i];
 		j++;
-		i++;
 	}
+	line[0] = ft_strsub(line[0], 0, (i - j));
 	return(line[0]);
 }
-// Verifier que le r stock la suite !
-//
+
+
 int get_next_line(int const fd, char **line)
 {
 	int i;
@@ -60,12 +61,14 @@ int get_next_line(int const fd, char **line)
 	static char *r;	
 	i =  0;	
 	
+	if (r)
 	line[0] = ft_strnew(BUFF_SIZE + 1);
 	r = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
-	r = len_line(fd, buf, r, line); 	
+	line[0] = len_line(fd, buf, r, line); 	
 	//if (line = 
-	ft_putstr(r);
-//	ft_putchar('\n');
+	ft_putstr(line[0]);
+	ft_putchar('\n');
+//	ft_putstr(r);
 	return (0);
 }
 
