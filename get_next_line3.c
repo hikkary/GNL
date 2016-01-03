@@ -6,7 +6,7 @@ int check_buff(char *buf)
 	int i;
 
 	i = 0;
-	while (buf[i])
+	while (buf[i] != '\0')
 	{
 		if (buf[i] == '\n')
 			return(1);
@@ -25,13 +25,12 @@ char *len_line(int fd, char *buf, char *r, char **line)
 	int b;
 	j = 0;
 
-//	if (r)
-	//	line[0] = check(line, r);
 	i = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE) != 0 && b != 1))
 	{
 	//	if (check_buff(line[0]) == 0)
-		//	ret = read(fd, buf, BUFF_SIZE);
+		// ret = read(fd, buf, BUFF_SIZE);
+			//ft_putstr(buf);	
 			line[0] = ft_strjoin(line[0], buf);
 			b = check_buff(buf);
 	}
@@ -54,7 +53,7 @@ char *len_line(int fd, char *buf, char *r, char **line)
 char *check(char **line, char *r)
 {
 	int i;
-	//ft_putstr("ace");
+	//ft_putstr(r);
 	i = 0;
 	while (r[i] != '\n' && r[i] != '\0' )
 	{
@@ -62,10 +61,8 @@ char *check(char **line, char *r)
 		//ft_putchar(r[i]);
 		r[i] = ' ';
 		i++;
-	//	if(r[i] == '\0')
-	//		ft_strdel(&r);
 	}
-	//ft_strtrim(r);
+	ft_strtrim(r);
 	//printf("\n\n%s\n\n",r);
 	return (line[0]);
 }
@@ -89,14 +86,16 @@ int get_next_line(int const fd, char **line)
 		return(0);
 	}
 	line[0] = len_line(fd, buf, r, line);
-	//if (line =
-	ft_putstr(line[0]);
-	ft_putchar('\n');
-	ft_strdel(&line[0]);
+	//if (!line)
+	//	return (0);
+	//ft_putstr(line[0]);
+	//ft_putchar('\n');
+	//ft_strdel(&line[0]);
+//	ft_strclr(line[0]);
 	//  ft_putstr(r);
 	return (0);
 }
-
+/// REGLER LE PB DE NCE A LA FIN
 //A FAIRE creer la fonction qui colle la static r a line , et     qui si ya pas de buffer la renvoi a lautre fonction pour conti    nuer a lire, Vive la republique, vive la France
 
 int main(int argc, char **argv)
@@ -111,10 +110,13 @@ int main(int argc, char **argv)
 	//while(argv[1])
 
 	get_next_line(fd, &line);
+	ft_putendl(line);
 	free(line);
 	get_next_line(fd, &line);
+	ft_putendl(line);
 	free(line);
 	get_next_line(fd, &line);
+	ft_putendl(line);
 	free(line);
 	return (0);
 }
