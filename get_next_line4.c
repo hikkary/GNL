@@ -36,7 +36,9 @@ char *check(char **line, char *r)
 		r[i] = ' ';
 		i++;
 	}
-	ft_strtrim(r);
+	if (r[i] == '\n')
+		r[i] = 32;
+	line[0][i] = '\0';
 	return (line[0]);
 }
 
@@ -55,7 +57,8 @@ int get_next_line(int const fd, char **line)
 	{
 		r = len_line(fd, buf, r);
 	}
-	line[0] = check(line[0], r);
+	line[0] = check(&line[0], r);
+	r =	ft_strtrim(r);
 
 	return (0);
 }
