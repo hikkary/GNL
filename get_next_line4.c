@@ -63,7 +63,7 @@ int get_next_line(int const fd, char **line)
 	return (0);
 }
 
-
+// Regler la putain de sa race la condition darret grace a R
 int main(int argc, char **argv)
 {
 	int fd;
