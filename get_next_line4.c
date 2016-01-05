@@ -15,9 +15,15 @@ int check_buff(char *buf, int cara)
 	return (0);
 }
 
-char *len_line(int fd, char *buf, char *r)
+int line(char *line)
 {
-
+	int i;
+	
+	i = 0;
+	while (line[i] != '\0')
+	{
+			
+	}	
 }
 
 char *check(char **line, char *r)
