@@ -59,6 +59,7 @@ int get_next_line(int const fd, char **line)
 	{
 		if ((ret = read(fd, buf, BUFF_SIZE) != 0))
 		{
+			buf[BUFF_SIZE] = '\0';
 			r = ft_strjoin(r, buf);
 		}
 	}
@@ -82,7 +83,7 @@ int main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	//fd2 = open(argv[2], O_RDONLY);
 	//while(argv[1])
-	while(get_next_line(fd, &line))
+	while(get_next_line(fd, &line) == 1)
 	{
 		ft_putendl(line);
 		free(line);
