@@ -36,28 +36,33 @@ char *check(char **line, char *r)
 
 int get_next_line(int const fd, char **line)
 {
-	int i;
+	static int i;
 	int ret;
 	char buf[BUFF_SIZE + 1];
-	static char *r;
-	i =  0;
+	static char **r;
 	
+	if(!r)
+		r = (char **)malloc(sizeof(char *) * 100);
+	if (!r[98])
+		r[98] = ft_strnew(3);	
+	if (!r[0])
+		r[0] = ft_strnew(BUFF_SIZE + 1);
 	line[0] = ft_strnew(BUFF_SIZE + 1); 
-	if (!r)
-		r = ft_strnew(BUFF_SIZE + 1);
-	while (check_buff(r, '\n') != 1)
+	while (check_buff(r[0], '\n') != 1 && r[98][1] != '0')
 	{
 		if ((ret = read(fd, buf, BUFF_SIZE) != 0))
 		{
 			buf[BUFF_SIZE] = '\0';
-			r = ft_strjoin(r, buf);
+			r[0] = ft_strjoin(r[0], buf);
 		}
 	}
-	line[0] = check(&line[0], r);
+	line[0] = check(&line[0], r[0]);
 	
-	r = ft_strsub(r, ft_strlen(line[0]) + 1, ft_strlen(r));
-	if (r[0] == '\0')
+	r[0] = ft_strsub(r[0], ft_strlen(line[0]) + 1, ft_strlen(r[0]));	
+	if (r[0][0] == '\0' && r[98][1] == '0')
 		line[0] = NULL;
+	if (r[0][0] == '\0')
+		r[98][1] = '0';
 	if (line[0])
 		return(1);
 	else
