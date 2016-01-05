@@ -38,6 +38,8 @@ char *check(char **line, char *r)
 	}
 	if (r[i] == '\n')
 		r[i] = 32;
+	if (r[i + 1] == '\0')
+		r = NULL;
 	line[0][i] = '\0';
 	return (line[0]);
 }
@@ -59,8 +61,11 @@ int get_next_line(int const fd, char **line)
 	}
 	line[0] = check(&line[0], r);
 	r =	ft_strtrim(r);
-
-	return (0);
+	
+	if (ret == 0 && r == NULL)
+		return(0);
+	else
+		return (1);
 }
 
 // Regler la putain de sa race la condition darret grace a R
@@ -74,14 +79,8 @@ int main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	//fd2 = open(argv[2], O_RDONLY);
 	//while(argv[1])
-
 	get_next_line(fd, &line);
-	ft_putendl(line);
-	free(line);
-	get_next_line(fd, &line);
-	ft_putendl(line);
-	free(line);
-	get_next_line(fd, &line);
+	
 	ft_putendl(line);
 	free(line);
 	return (0);
