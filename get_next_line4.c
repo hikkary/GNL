@@ -15,16 +15,6 @@ int check_buff(char *buf, int cara)
 	return (0);
 }
 
-int line(char *line)
-{
-	int i;
-	
-	i = 0;
-	while (line[i] != '\0')
-	{
-			
-	}	
-}
 
 char *check(char **line, char *r)
 {
@@ -51,11 +41,11 @@ int get_next_line(int const fd, char **line)
 	char buf[BUFF_SIZE + 1];
 	static char *r;
 	i =  0;
-
+	
 	line[0] = ft_strnew(BUFF_SIZE + 1); 
 	if (!r)
 		r = ft_strnew(BUFF_SIZE + 1);
-	while (check_buff(r, '\n') != 1 && r)
+	while (check_buff(r, '\n') != 1)
 	{
 		if ((ret = read(fd, buf, BUFF_SIZE) != 0))
 		{
@@ -65,7 +55,9 @@ int get_next_line(int const fd, char **line)
 	}
 	line[0] = check(&line[0], r);
 	
-	r = ft_strsub(r, ft_strlen(line[0]) + 1, ft_strlen(r));;
+	r = ft_strsub(r, ft_strlen(line[0]) + 1, ft_strlen(r));
+	if (r[0] == '\0')
+		line[0] = NULL;
 	if (line[0])
 		return(1);
 	else
