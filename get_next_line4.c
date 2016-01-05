@@ -1,14 +1,14 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-int check_buff(char *buf)
+int check_buff(char *buf, int cara)
 {
 	int i;
 
 	i = 0;
 	while (buf[i] != '\0')
 	{
-		if (buf[i] == '\n')
+		if (buf[i] == cara)
 			return(1);
 		i++;
 	}
@@ -17,12 +17,7 @@ int check_buff(char *buf)
 
 char *len_line(int fd, char *buf, char *r)
 {
-	int ret;
-	if ((ret = read(fd, buf, BUFF_SIZE) != 0))
-	{
-			r = ft_strjoin(r, buf);
-	}
-	return(r);
+
 }
 
 char *check(char **line, char *r)
@@ -36,11 +31,10 @@ char *check(char **line, char *r)
 		r[i] = ' ';
 		i++;
 	}
+	line[0][i] = '\0';
 	if (r[i] == '\n')
 		r[i] = 32;
-	if (r[i + 1] == '\0')
-		r = NULL;
-	line[0][i] = '\0';
+	i++;	
 	return (line[0]);
 }
 
@@ -55,17 +49,20 @@ int get_next_line(int const fd, char **line)
 	line[0] = ft_strnew(BUFF_SIZE + 1); 
 	if (!r)
 		r = ft_strnew(BUFF_SIZE + 1);
-	while (check_buff(r) != 1)
+	while (check_buff(r, '\n') != 1 && r)
 	{
-		r = len_line(fd, buf, r);
+		if ((ret = read(fd, buf, BUFF_SIZE) != 0))
+		{
+			r = ft_strjoin(r, buf);
+		}
 	}
 	line[0] = check(&line[0], r);
-	r =	ft_strtrim(r);
 	
-	if (ret == 0 && r == NULL)
-		return(0);
+	r = ft_strsub(r, ft_strlen(line[0]) + 1, ft_strlen(r));;
+	if (line[0])
+		return(1);
 	else
-		return (1);
+		return (0);
 }
 
 // Regler la putain de sa race la condition darret grace a R
@@ -79,9 +76,10 @@ int main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	//fd2 = open(argv[2], O_RDONLY);
 	//while(argv[1])
-	get_next_line(fd, &line);
-	
-	ft_putendl(line);
-	free(line);
+	while(get_next_line(fd, &line))
+	{
+		ft_putendl(line);
+		free(line);
+	}
 	return (0);
 }
