@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 16:44:02 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/07 20:17:34 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/07 23:10:03 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,16 @@ char *stock(char *buf, char **b, int fd)
 	i = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE) != 0)) //&& i <= 4200)
 	{
-		//buf[ret] = '\0';
+		//buf[ft_strlen(buf)] = '\0';
 		b[0] = ft_strjoin(b[0], buf);
 		i++;
-		ft_putchar('\n');
+		if (fd == 0 && check_buff(b[0], '\n'))
+		{
+			b[98][1] = '0';
+			return(b[0]);
+		}
 	}
-//	ft_putstr(b[0]);
+//	ft_putstr(b[0]);:w
 //	ft_putstr(b[0]);
 	if (ret == 0)
 		b[98][1] = '0';
@@ -52,10 +56,11 @@ char **ft_write(char **line, char **b)
 	int i;
 	
 	i = 0;
-	ft_putstr("ligne");
+	//ft_putstr("ligne");
 	while (b[0][i] != '\n' && b[0][i] && b[0][i] != EOF)
 	{
 		line[0][i] = b[0][i];
+	//	b[0][i] = ' ';
 		i++;
 	//	ft_putchar('a');
 	}
@@ -76,15 +81,23 @@ int get_next_line(int const fd, char **line)
 	}
 	//if (fd == 0)
 	line[0] = ft_strnew(BUFF_SIZE + 1);
-	// ajouter la condition
-//	while (check_buff(b[0], '\0') && b[98][1] != '0')
-	b[0] = stock(buf, b, fd);
+	while ((b[98][1] != '0'))
+		b[0] = stock(buf, b, fd);
 	line = ft_write(line, b);
 //	ft_putstr(line[0]);
 //	printf("\nb avant la transformation : %s\n", b[0]);
-	b[0] = ft_strsub(b[0], ft_strlen(line[0]) + 1, ft_strlen(b[0]));
-//	printf("\nb apres la transformation : %s\n", b[0]);
-
-	return(1);
+	if (fd != 0)
+		b[0] = ft_strsub(b[0], ft_strlen(line[0]) + 1, ft_strlen(b[0]));
+	else
+		b[0] = ft_strnew(BUFF_SIZE + 1);
+	//	printf("\nb apres la transformation : %s\n", b[0]);
+	if (b[98][0] == '0') //&& fd != 0)
+		line[0] = NULL;
+	if (b[0][0] == '\0' && b[98][1] == '0')
+		b[98][0] = '0';	
+	if (line[0])// || fd == 0)
+		return(1);
+	else
+		return(0);
 }
 
