@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 16:44:02 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/07 23:10:03 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/09 16:59:11 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ char *stock(char *buf, char **b, int fd)
 	int i;
 
 	i = 0;
-	while ((ret = read(fd, buf, BUFF_SIZE) != 0)) //&& i <= 4200)
+	while ((ret = read(fd, buf, BUFF_SIZE)))
 	{
-		//buf[ft_strlen(buf)] = '\0';
+		buf[ret] = '\0';
 		b[0] = ft_strjoin(b[0], buf);
 		i++;
+		ft_putnbr(i);
+		ft_putchar('\n');
 		if (fd == 0 && check_buff(b[0], '\n'))
 		{
 			b[98][1] = '0';
@@ -46,6 +48,8 @@ char *stock(char *buf, char **b, int fd)
 	}
 //	ft_putstr(b[0]);:w
 //	ft_putstr(b[0]);
+	if (i >= 4200)
+		b[98][1] = '1';
 	if (ret == 0)
 		b[98][1] = '0';
 	return(b[0]);
@@ -60,9 +64,7 @@ char **ft_write(char **line, char **b)
 	while (b[0][i] != '\n' && b[0][i] && b[0][i] != EOF)
 	{
 		line[0][i] = b[0][i];
-	//	b[0][i] = ' ';
 		i++;
-	//	ft_putchar('a');
 	}
 	line[0][i] = '\0';
 	return (line);
@@ -80,7 +82,7 @@ int get_next_line(int const fd, char **line)
 		b[98] = ft_strnew(3);
 	}
 	//if (fd == 0)
-	line[0] = ft_strnew(BUFF_SIZE + 1);
+	line[0] = ft_strnew(10000);
 	while ((b[98][1] != '0'))
 		b[0] = stock(buf, b, fd);
 	line = ft_write(line, b);
