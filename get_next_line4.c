@@ -61,7 +61,7 @@ int get_next_line(int const fd, char **line)
 	r[0] = ft_strsub(r[0], ft_strlen(line[0]) + 1, ft_strlen(r[0]));	
 	if (r[0][0] == '\0' && r[98][1] == '0')
 		line[0] = NULL;
-	if (r[0][0] == '\0')
+	if (ret  == 0)
 		r[98][1] = '0';
 	if (line[0])
 		return(1);

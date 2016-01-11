@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:30:47 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/11 20:17:35 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/11 20:19:49 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct	s_list
 int get_next_line(int const fd, char **line);
 typedef struct  s_struct
 {
-    char *buf;
+    char buf[BUFF_SIZE + 1];
 	char *total;
     char *after_n;
     int t;

@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 16:44:02 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/09 20:52:46 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/10 15:06:49 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int check_buff(char *buf, int cara)
 	return (0);
 }
 
-char *stock(char *buf, char **b, int fd)
+char **stock(char *buf, char **b, int fd)
 {
 	int ret;
 	int i;
 
 	i = 0;
-	while ((ret = read(fd, buf, BUFF_SIZE)))
+	while ((ret = read(fd, buf, BUFF_SIZE))) //b[98][2] != 1)
 	{
 		buf[ret] = '\0';
 		b[0] = ft_strjoin(b[0], buf);
@@ -43,17 +43,17 @@ char *stock(char *buf, char **b, int fd)
 		if (fd == 0 && check_buff(b[0], '\n'))
 		{
 			b[98][1] = '0';
-			return(b[0]);
+			return(b);
 		}
-//		if ((check_buff(b[0],'\n') == 1 || check_buff(b[0], EOF) == 1))
-//			b[98][2] = '1';
+	//	if ((check_buff(b[0],'\n') == 1)) // check_buff(b[0], EOF) == 1))
+	//		b[98][2] = '1';
 	}
 //	ft_putstr(b[0]);:w
 //	ft_putstr(b[0]);
 	//ft_putchar(b[98][2]);
 	if (ret == 0)
 		b[98][1] = '0';
-	return(b[0]);
+	return(b);
 }
 
 char **ft_write(char **line, char **b)
@@ -84,8 +84,9 @@ int get_next_line(int const fd, char **line)
 	}
 	//if (fd == 0)
 	line[0] = ft_strnew(10000);
-	while ((b[98][1] != '0'))// && (b[98][2] != '1'))
-		b[0] = stock(buf, b, fd);;
+	while (b[98][1] != '0') //|| b[98][2] != '1')
+		b = stock(buf, b, fd);;
+	b[98][2] = '0';
 	line = ft_write(line, b);
 //	ft_putstr(line[0]);
 //	printf("\nb avant la transformation : %s\n", b[0]);
