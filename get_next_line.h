@@ -6,13 +6,14 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:30:47 by zkerkeb           #+#    #+#             */
-/*   Updated: 2015/12/23 20:01:36 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/11 20:17:35 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 1
+# define BUFF_SIZE 11000
+# define DEBUG printf("%d - %s - %s\n", __LINE__, __FILE__, __func__);
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -24,11 +25,16 @@ typedef struct	s_list
 {
 	void			*content;
 	size_t			content_size;
-	struct s_list	*next;
 }				t_list;
 
 int get_next_line(int const fd, char **line);
-
+typedef struct  s_struct
+{
+    char *buf;
+	char *total;
+    char *after_n;
+    int t;
+}           t_g;
 // BALANCE LE LIB.H A PART IMBECILE
 // Fonction LIB en bas
 
