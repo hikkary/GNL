@@ -21,7 +21,7 @@ int check_buff(char *buf, int cara)
 	while (buf[i] != '\0')
 	{
 		if (buf[i] == cara)
-			return(1);
+			return(i);
 		i++;
 	}
 	return (0);
@@ -37,9 +37,11 @@ t_g stock(t_g s, int fd)
 	{
 		s.buf[ret] = '\0';
 		s.total = ft_strjoin(s.total, s.buf);
-		printf("ace\n");
+		if (fd == 0 && ret > 0)
+			return (s);
 	}
 	return (s);
+	
 }
 
 /*
@@ -60,18 +62,22 @@ char **ft_write(char **line, char **b)
 int get_next_line(int const fd, char **line)
 {
 	static t_g s;
-	
+	ft_putstr("1");
 	s = stock(s,fd);
+	ft_putstr("2");
 	ft_putstr(s.total);
-	return (0);
+	return (1);
 }
-// mettre le fd 
+ 
 int main(int argc, char **argv)
 {
 	char *line;
 	int fd;
-
 	fd = open(argv[1], O_RDONLY);
-	get_next_line(0, &line);
+	while(get_next_line(0, &line))
+	{
+		ft_putendl(line);
+		//free(line);
+	}
 	return (0);
 }
