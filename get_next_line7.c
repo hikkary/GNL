@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 16:44:02 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/11 20:37:54 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/13 21:10:46 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,17 @@ t_g *ft_stock(t_g *s, int fd)
 {
 	int ret;
 
-	s->t = 0;
-	s->total = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));	
-	while (len_buff(s->total) == 0)
-	{
+	s->total = malloc(sizeof(char) * BUFF_SIZE + 1);
+	s->total[ft_strlen(s->total)] = '\0';
 		DEBUG
-		ret = read(fd, s->buf, BUFF_SIZE);
-		s->buf[ret] = '\0';
-		s->total = ft_strjoin(s->total, s->buf);
-		if (len_buff(s->total))
-			return (s);
-	}
-	if (ret == 0)
-		s->t = 1;
+		while((ret = read(fd, s->buf, BUFF_SIZE)) && s->t != 1)
+		{
+			s->buf[ret] = '\0';
+			ft_strjoin(s->total, s->buf);
+			printf("%s", s->total);
+			if (len_buff(s->total))
+				s->t = 1;
+		}
 	return (s);
 }
 
@@ -54,44 +52,35 @@ char *ft_write(t_g *s,char **line)
 	int i;
 	
 	i = 0;
-	while (s->total[i] != '\n' && s->total[i] && s->total[i] != EOF)
+	while ((s->total[i] != '\n' && s->total[i] != EOF) && s->total[i])
 	{
 		line[0][i] = s->total[i];
 		i++;
+	//	DEBUG
 	}
 	line[0][i] = '\0';
 	return (line[0]);
 }
+
 // regler le pb de boucle infini]
 int get_next_line(int const fd, char **line)
 {
 	static t_g *s;
-
-
+	DEBUG
 	if (fd < 0)
 		return (0);
 	if (!s)
 		s = malloc(sizeof(t_g));
-	ft_putnbr(s->t);
-	if (s->t != 1 )// len_buff(s->total) == 0)
-		s = ft_stock(s,fd);
+	DEBUG
+	s = ft_stock(s, fd); 
 	DEBUG
 	line[0] = ft_strnew(len_buff(s->total) + 1);
-	//DEBUG
 	line[0] = ft_write(s, &line[0]);
-	//DEBUG
+	printf("%s", line[0]);
 	s->total = ft_strchr(s->total,'\n');
-	DEBUG
 	s->total++;
-	DEBUG
-	//ft_putstr(s->total);
-	if((*s->total == '\0' || *s->total == EOF) && fd != 0)
-		s->stop = 2;
-	DEBUG
-	if(line[0])
-		return(1);
-	else
-		return (0);
+	
+	return(0);
 }
 
 int main(int argc, char **argv)
