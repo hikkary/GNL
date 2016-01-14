@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 16:44:02 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/13 21:10:46 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/13 22:14:38 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_g *ft_stock(t_g *s, int fd)
 	s->total = malloc(sizeof(char) * BUFF_SIZE + 1);
 	s->total[ft_strlen(s->total)] = '\0';
 		DEBUG
-		while((ret = read(fd, s->buf, BUFF_SIZE)) && s->t != 1)
+		while((ret = read(fd, s->buf, BUFF_SIZE)) && len_buff(s->total) != 0)
 		{
 			s->buf[ret] = '\0';
 			ft_strjoin(s->total, s->buf);
@@ -50,13 +50,13 @@ t_g *ft_stock(t_g *s, int fd)
 char *ft_write(t_g *s,char **line)
 {
 	int i;
-	
+
 	i = 0;
 	while ((s->total[i] != '\n' && s->total[i] != EOF) && s->total[i])
 	{
 		line[0][i] = s->total[i];
 		i++;
-	//	DEBUG
+		DEBUG
 	}
 	line[0][i] = '\0';
 	return (line[0]);
@@ -74,9 +74,10 @@ int get_next_line(int const fd, char **line)
 	DEBUG
 	s = ft_stock(s, fd); 
 	DEBUG
-	line[0] = ft_strnew(len_buff(s->total) + 1);
+	line[0] = ft_strnew(100);
 	line[0] = ft_write(s, &line[0]);
-	printf("%s", line[0]);
+	DEBUG
+	printf(" ace %s", s->total);
 	s->total = ft_strchr(s->total,'\n');
 	s->total++;
 	
