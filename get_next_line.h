@@ -23,10 +23,10 @@
 typedef struct s_struct 
 {
    	char buf[BUFF_SIZE + 1];
-	char *total;
+	char **l;
     char *an;
    	int t;
-   	int stop;
+   	int ret;
 }				t_g;
 
 int get_next_line(int const fd, char **line);
