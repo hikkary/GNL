@@ -6,13 +6,13 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:30:47 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/13 22:38:10 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/18 22:56:11 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 11000
+# define BUFF_SIZE 3 
 # define DEBUG printf("%d - %s - %s\n", __LINE__, __FILE__, __func__);
 #include "libft/libft.h"
 #include <unistd.h>

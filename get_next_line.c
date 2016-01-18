@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 22:15:07 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/14 23:52:37 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/18 22:49:25 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,18 @@ int bn(char *buf)
 
 char *lire(t_g *s, int fd, char **line)
 {
-
-	while ((s->ret = read(fd, s->buf,BUFF_SIZE))) // is si il y a quelque chose a lire
-	{
-		if(s->an != NULL)
+	if(s->an != NULL)
+		{
+			//DEBUG
 			line[0] = ft_strjoin(line[0],s->an);
+			s->an = NULL;
+		}
+	while ((s->ret = read(fd, s->buf,BUFF_SIZE)))// is si il y a quelque chose a lire
+	{
 		s->buf[s->ret] = '\0';
 		line[0] = ft_strjoin(line[0], s->buf);
-		if(ft_strchr(line[0], '\n'))
+		if (ft_strchr(line[0], '\n'))
 		{
-//			printf("\nan 1 = %s\n ", s->an);
 			s->an = ft_strchr(line[0],'\n');
 			s->an++;
 			line[0] = ft_strsub(line[0], 0, bn(line[0]));
@@ -48,13 +50,13 @@ char *lire(t_g *s, int fd, char **line)
 	}
 	return(line[0]);
 }
-
+// je dois gerer les petit buffer qui bug 
 //	faire fonction qui va gerer after \n
 int get_next_line(int const fd, char **line)
 {
 	static t_g *s;
-	int ret;
-	if((fd < 0 && fd > 100) || !line)
+	
+	if((fd < 0 || fd > 100) || line == NULL || fd == 42)
 		return (-1);
 	if(!s)
 	{
@@ -62,6 +64,7 @@ int get_next_line(int const fd, char **line)
 		s->an = NULL;
 	}
 	line[0] = ft_strnew(1);
+//	ft_strclr(line[0]);
 	if (s->an)
 	{
 		if(ft_strchr(s->an, '\n'))
@@ -80,14 +83,7 @@ int get_next_line(int const fd, char **line)
 		}
 	}
 
-	//iif(!s->an) 
-//	{
-	//	s->an = ft_strnew(BUFF_SIZE + 1);
-//	}
-
 	line[0] = lire(s, fd, &line[0]);
-	//	printf("%s", line[0]);
-	//printf("\nan 2 = %s\n ", s->an);
 	if(line[0][0] == '\0' && s->ret == 0)
 		return (0);
 	else
