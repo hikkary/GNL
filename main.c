@@ -3,56 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: kperreau <kperreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/07 17:02:19 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/11 17:58:00 by zkerkeb          ###   ########.fr       */
+/*   Created: 2014/11/10 17:56:05 by kperreau          #+#    #+#             */
+/*   Updated: 2015/02/10 22:24:46 by kperreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include "libft.h"
 
-int main(int argc,char **argv)
+int		main(int argc, char **argv)
 {
-	int fd;
-	char *line;
- 	int i;
- 
-//	i = 0;
-	fd = open(argv[1], O_RDONLY);
-//	fd = 0;
-//	i = 0;	
-//
-/*	while(get_next_line(fd, &line))
+	int		fd;
+	char	*line;
+
+	line = NULL;
+	if (argc > 1)
 	{
-		ft_putendl(line);
-		//ft_putendl(line);
-		free(line);
+		if (argc > 2 || (fd = open(argv[1], O_RDONLY)) != -1)
+		{
+			if (argc > 3)
+				printf("%d", get_next_line(23, &line));
+			else
+			{
+				if (argc > 2)
+					fd = 0;
+				while (get_next_line(fd, &line) == 1)
+				{
+					printf("%s", line);
+					memset(line, '*', strlen(line));
+					free(line);
+					line = NULL;
+				}
+				if (line)
+				{
+					printf("%s", line);
+					memset(line, '*', strlen(line));
+					free(line);
+					line = NULL;
+				}
+				close(fd);
+			}
+		}
 	}
-
-
- 	i =	get_next_line(fd, &line);
-	printf("%d", i);
-	ft_putendl(line);
-	free(line);
-
-	//test 
-
-	while(i <= 3)
-	{
-		get_next_line(fd, &line);
-		ft_putendl(line);
-		free(line);
-		i++;
-	}
-*/
-	//test final/
-	while(get_next_line(fd, &line))
-	{
-		ft_putendl(line);
-		free(line);
-	}
-
 	return (0);
 }
