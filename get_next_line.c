@@ -6,36 +6,34 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 22:15:07 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/30 17:34:48 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/01/30 18:16:11 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-int bn(char *buf)
+int		bn(char *buf)
 {
 	int i;
 
 	i = 0;
-
 	while (buf[i])
 	{
-		if (buf[i] == '\n' ||  buf[i] == EOF)
+		if (buf[i] == '\n' || buf[i] == EOF)
 			return (i);
 		i++;
 	}
 	return (0);
 }
 
-char *lire(t_g *s, int fd, char **line)
+char	*lire(t_g *s, int fd, char **line)
 {
 	if (s->an != NULL)
-		{
-			line[0] = ft_strjoin(line[0],s->an);
-			s->an = NULL;
-		}
-	while ((s->ret = read(fd, s->buf,BUFF_SIZE)))
+	{
+		line[0] = ft_strjoin(line[0], s->an);
+		s->an = NULL;
+	}
+	while ((s->ret = read(fd, s->buf, BUFF_SIZE)))
 	{
 		if (s->ret == -1)
 			return (NULL);
@@ -43,7 +41,7 @@ char *lire(t_g *s, int fd, char **line)
 		line[0] = ft_strjoin(line[0], s->buf);
 		if (ft_strchr(line[0], '\n'))
 		{
-			s->an = ft_strchr(line[0],'\n');
+			s->an = ft_strchr(line[0], '\n');
 			s->an++;
 			line[0] = ft_strsub(line[0], 0, bn(line[0]));
 			return (line[0]);
@@ -52,14 +50,14 @@ char *lire(t_g *s, int fd, char **line)
 	return (line[0]);
 }
 
-int after_n(t_g *s, char **line)
+int		after_n(t_g *s, char **line)
 {
 	if (s->an)
 	{
 		if (ft_strchr(s->an, '\n'))
 		{
 			line[0] = ft_strsub(s->an, 0, bn(s->an));
-			s->an  = ft_strchr(s->an, '\n');
+			s->an = ft_strchr(s->an, '\n');
 			s->an++;
 			if (*s->an == '\0')
 			{
@@ -74,12 +72,11 @@ int after_n(t_g *s, char **line)
 	return (0);
 }
 
-
-int get_next_line(int const fd, char **line)
+int		get_next_line(int const fd, char **line)
 {
 	static t_g *s;
-	
-	if (fd < 0  || line == NULL)
+
+	if (fd < 0 || line == NULL)
 		return (-1);
 	if (!s)
 	{
@@ -91,23 +88,9 @@ int get_next_line(int const fd, char **line)
 		return (1);
 	line[0] = lire(s, fd, &line[0]);
 	if (line[0] == NULL)
-		return(-1);
+		return (-1);
 	if (line[0][0] == '\0' && s->ret == 0)
 		return (0);
 	else
 		return (1);
 }
-/*
-int main(int argc, char **argv)
-{
-	char *line;
-	int fd;
-
-	fd = open(argv[1], O_RDONLY);
-//	fd = 0;
-	while(get_next_line(fd, &line))
-	{
-		ft_putendl(line);
-		free(line);
-	}
-}*/
