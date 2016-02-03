@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 22:15:07 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/30 18:16:11 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/02/01 16:32:41 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		get_next_line(int const fd, char **line)
 {
 	static t_g *s;
 
-	if (fd < 0 || line == NULL)
+	if (fd < 0 || fd > 256 || !line || BUFF_SIZE <= 0)
 		return (-1);
 	if (!s)
 	{
@@ -86,7 +86,8 @@ int		get_next_line(int const fd, char **line)
 	line[0] = ft_strnew(1);
 	if (after_n(s, &line[0]))
 		return (1);
-	line[0] = lire(s, fd, &line[0]);
+	if (line[0])
+		line[0] = lire(s, fd, &line[0]);
 	if (line[0] == NULL)
 		return (-1);
 	if (line[0][0] == '\0' && s->ret == 0)

@@ -6,7 +6,7 @@
 /*   By: zkerkeb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:30:47 by zkerkeb           #+#    #+#             */
-/*   Updated: 2016/01/30 18:46:00 by zkerkeb          ###   ########.fr       */
+/*   Updated: 2016/02/03 14:41:16 by zkerkeb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@
 
 typedef struct	s_struct
 {
-	char	buf[BUFF_SIZE + 1];
-	char	**l;
+	char	buf[BUFF_SIZE + 1];;
 	char	*an;
-	int		t;
 	int		ret;
 }				t_g;
 
